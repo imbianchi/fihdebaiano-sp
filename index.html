@@ -77,8 +77,7 @@
       function updateMode() {
         const lowResolution =
           window.innerWidth < 1024 ||
-          window.innerHeight < 700 ||
-          window.devicePixelRatio < 1;
+          window.innerHeight < 700;
 
         document.body.classList.toggle('limited', lowResolution);
       }
