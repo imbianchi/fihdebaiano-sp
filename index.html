@@ -2,11 +2,15 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GIF Fullscreen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Fih de Baiano</title>
     <style>
       :root {
-        --instagram-size: 36px;
+        --bg: #ffffff;
+        --fg: #111111;
+        --instagram-size: clamp(28px, 6vw, 40px);
+        --instagram-offset: max(16px, env(safe-area-inset-bottom));
       }
 
       * {
@@ -16,74 +20,88 @@
       html,
       body {
         margin: 0;
+        padding: 0;
         width: 100%;
         height: 100%;
-        background: #fff;
+        background: var(--bg);
+        color: var(--fg);
         overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body {
+        min-height: 100svh;
       }
 
       main {
-        position: relative;
-        width: 100vw;
-        height: 100vh;
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
       }
 
-      #hero-gif {
+      #hero {
         width: 100%;
         height: 100%;
-        display: block;
-        object-fit: cover;
-      }
-
-      body.limited #hero-gif {
         object-fit: contain;
-        max-width: 100%;
-        max-height: 100%;
+        background: var(--bg);
+        display: block;
       }
 
       #instagram-link {
         position: fixed;
         left: 50%;
-        bottom: 16px;
+        bottom: var(--instagram-offset);
         transform: translateX(-50%);
-        color: #111;
+        color: var(--fg);
         line-height: 0;
+        padding: 8px;
+        border-radius: 999px;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        z-index: 2;
+      }
+
+      #instagram-link:hover,
+      #instagram-link:focus-visible {
+        opacity: 0.7;
+        transform: translateX(-50%) scale(1.08);
+        outline: none;
       }
 
       #instagram-link svg {
         width: var(--instagram-size);
         height: var(--instagram-size);
       }
+
+      @media (prefers-reduced-motion: reduce) {
+        #hero {
+          animation: none;
+        }
+      }
     </style>
   </head>
   <body>
     <main>
-      <img
-        id="hero-gif"
-        src="fihdebaiano4gif.gif"
-        alt="GIF principal"
-      />
+      <video
+        id="hero"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="auto"
+        poster="fihdebaiano-poster.jpg"
+        aria-label="Animação Fih de Baiano"
+      >
+        <source src="fihdebaiano.webm" type="video/webm" />
+        <source src="fihdebaiano.mp4" type="video/mp4" />
+        <img src="fihdebaiano.gif" alt="Fih de Baiano" />
+      </video>
     </main>
 
-    <!-- Placeholder: trocar "seu_perfil" pelo @ da conta oficial -->
     <a id="instagram-link" href="https://instagram.com/seu_perfil" aria-label="Instagram">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5Zm8.88 1.38a1.12 1.12 0 1 1 0 2.24 1.12 1.12 0 0 1 0-2.24ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" />
       </svg>
     </a>
-
-    <script>
-      function updateMode() {
-        const lowResolution =
-          window.innerWidth < 1024 ||
-          window.innerHeight < 700 ||
-          window.devicePixelRatio < 1;
-
-        document.body.classList.toggle('limited', lowResolution);
-      }
-
-      window.addEventListener('resize', updateMode);
-      updateMode();
-    </script>
   </body>
 </html>
